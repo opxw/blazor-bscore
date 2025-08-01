@@ -29,5 +29,10 @@
 		{
 			return Asset($"vendors/{name}/{src}");
 		}
+
+		public string Images(string src)
+		{
+			return Asset($"images/{src}");
+		}
 	}
 }
