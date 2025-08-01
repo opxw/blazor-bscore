@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Authors>Noviyanto Wibowo</Authors>
+  </PropertyGroup>
+
+
+  <ItemGroup>
+    <SupportedPlatform Include="browser" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FastEnum" Version="2.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="9.0.7" />
+    <PackageReference Include="Opx.HttpClient" Version="1.0.4" />
+  </ItemGroup>
+
+</Project>

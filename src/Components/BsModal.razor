@@ -1,0 +1,49 @@
+﻿@inherits BsComponentBase
+
+<CascadingValue Value="@Label">
+<div id="@Id" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="@Label" aria-hidden="true">
+   @DrawDialog()
+</div>
+</CascadingValue>
+
+@code
+{
+    [Parameter]
+    public string Label { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public ElementSize Size { get; set; } = ElementSize.NotSet;
+
+    [Parameter]
+    public bool Scrollable { get; set; }
+
+    [Parameter]
+    public bool FullScreen { get; set; }
+
+    private RenderFragment? DrawDialog()
+    {
+        var content = Builder.Build("div")
+            .Attribute("class", "modal-content")
+            .Content(ChildContent)
+            .Render();
+
+        var b = Builder.Build("div")
+            .Attribute("class", "modal-dialog");
+
+        if (Size != ElementSize.NotSet)
+            b.Attribute("class", $"modal-{Size.GetLabel()}");
+
+        if (Scrollable)
+            b.Attribute("class", "modal-dialog-scrollable");
+
+        if (FullScreen)
+            b.Attribute("class", "modal-fullscreen");
+
+        b.Content(content);
+
+        return b.Render();
+    }
+}

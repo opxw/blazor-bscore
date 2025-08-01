@@ -1,0 +1,19 @@
+﻿<div class="modal-header">
+    <h4 class="modal-title" id="@Label">@ChildContent</h4>
+    @if (CloseButtonVisible)
+    {
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    }
+</div>
+
+@code
+{
+    [CascadingParameter]
+    public string Label { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public bool CloseButtonVisible { get; set; }
+}

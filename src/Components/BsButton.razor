@@ -1,0 +1,28 @@
+﻿@inherits BsComponentBase
+
+@Draw()
+
+@code
+{
+	[Parameter]
+	public RenderFragment? ChildContent { get; set; }
+
+	[Parameter]
+	public ColorKind Kind { get; set; } = ColorKind.NotSet;
+
+	private RenderFragment? Draw()
+	{
+		var b = Builder.Build("button", Id, Name)
+			.Attribute("type", "button")
+			.Attribute("class", "btn")
+			.Content(ChildContent);
+
+		if (Kind != ColorKind.NotSet)
+			b.Attribute("class", $"btn-{Kind.GetLabel()}");
+
+		if (IsClassDefined)
+			b.Attribute("class", Class);
+
+		return b.Render();
+	}
+}

@@ -1,0 +1,62 @@
+﻿@using static Opx.Blazor.BsCore.BsoConst
+@inherits BsComponentBase
+
+@switch (ContentPos)
+{
+	case ChildContentPos.Inside:
+		@DrawIcon(ChildContent)
+		break;
+	case ChildContentPos.After:
+		@DrawIcon()
+		@ChildContent
+		break;
+	case ChildContentPos.Before:
+		@ChildContent
+		@DrawIcon()
+		break;
+}
+
+@code
+{
+	[Parameter]
+	public string? IconName { get; set; }
+
+	[Parameter]
+	public string BuildTag { get; set; } = "span";
+
+	[Parameter]
+	public RenderFragment? ChildContent { get; set; }
+
+	[Parameter]
+	public int IconSize { get; set; } = 0;
+
+	[Parameter]
+	public ChildContentPos ContentPos { get; set; } = ChildContentPos.After;
+
+	private RenderFragment? DrawIcon(RenderFragment? child = null)
+	{
+		RenderFragment? result = null;
+
+		if (!string.IsNullOrWhiteSpace(BuildTag) && !string.IsNullOrWhiteSpace(IconName))
+		{
+			var b = Builder.Build(BuildTag)
+				.Attribute("class", IconName.ToLower());
+
+			if (IconSize > 0)
+				b.Attribute("class", Utils.IconSizeClass(IconSize));
+
+			if (!string.IsNullOrWhiteSpace(Class))
+				b.Attribute("class", Class);
+
+			if (IsIdDefined)
+				b.Attribute("id", Id);
+
+			if (child != null)
+				b.Content(child);
+
+			result = b.Render();
+		}
+
+		return result;
+	}
+}
