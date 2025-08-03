@@ -67,5 +67,28 @@ namespace Opx.Blazor.BsCore
 			Group,
 			Item
 		}
+
+		public enum BadgePos
+		{
+			TopRightCorner,
+			Default
+		}
+
+		public enum ControlStyle
+		{
+			Default,
+			[Label("outline")]
+			Outline,
+			[Label("soft")]
+			Soft,
+			[Label("bordered")]
+			Bordered
+		}
+
+		public enum BadgeKind
+		{
+			Text,
+			Dot
+		}
 	}
 }
