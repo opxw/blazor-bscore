@@ -11,6 +11,7 @@ namespace Opx.Blazor.BsCore
 		public int Group { get; set; }
 		public HtmlTagKind Kind { get; set; }
 		public RenderFragment? Content { get; set; }
+		public string? MarkupString { get; set; }
 	}
 
 	public class HtmlAttributeBase
@@ -64,6 +65,23 @@ namespace Opx.Blazor.BsCore
 			return this;
 		}
 
+		public HtmlAttributeBase Content(string? content)
+		{
+			if (content == null)
+				return this;
+
+			var count = _tags.Where(x => x.Kind == HtmlTagKind.Content).Count();
+			_tags.Add(new BsoHtmlBuilderItem()
+			{
+				Kind = HtmlTagKind.Content,
+				SortOrder = _tags.Count + 1,
+				Group = count + 1,
+				MarkupString = content
+			});
+
+			return this;
+		}
+
 		public RenderFragment Render()
 		{
 			return (RenderFragment)(b =>
@@ -90,7 +108,10 @@ namespace Opx.Blazor.BsCore
 				var contents = _tags.Where(x => x.Kind == HtmlTagKind.Content).OrderBy(x => x.SortOrder).ToList();
 				foreach (var c in contents)
 				{
-					b.AddContent(2, c.Content);
+					if (!string.IsNullOrWhiteSpace(c.MarkupString))
+						b.AddContent(2, new MarkupString(c.MarkupString));
+					else
+						b.AddContent(2, c.Content);
 				}
 
 				b.CloseElement();
