@@ -1,0 +1,81 @@
+﻿@inherits BsComponentBase
+
+<div class="@ParentClass">
+    <div class="@SpinnerClass" role="status"></div>
+    @if (TextPosition == SpinnerTextPosition.Right)
+    {
+        @DisplayText()
+    }
+</div>
+@if (TextPosition == SpinnerTextPosition.Bottom)
+{
+    @DisplayText("mt-2")
+}
+
+@code 
+{
+    [Parameter]
+    public SpinnerSize Size { get; set; } = SpinnerSize.Medium;
+
+    [Parameter]
+    public SpinnerTextPosition TextPosition { get; set; } = SpinnerTextPosition.Right;
+
+    [Parameter]
+    public SpinnerStyle SpinnerStyle { get; set; } = SpinnerStyle.Border;
+
+    [Parameter]
+    public ColorKind ColorKind { get; set; } = ColorKind.NotSet;
+
+    string contentClass
+    {
+        get
+        {
+            if (TextPosition == SpinnerTextPosition.Bottom)
+                return "justify-content-center";
+            else
+                return "align-items-center";
+        }
+    }
+
+    [Parameter]
+    public string? Text { get; set; }
+
+    RenderFragment? DisplayText(string additionClass = "")
+    {
+        var rebuiltClass = $"d-flex {contentClass}";
+        if (!string.IsNullOrWhiteSpace(additionClass))
+            rebuiltClass += $" {additionClass}";
+
+        return@<span class="@rebuiltClass">@Text</span>;
+    }
+
+    string ParentClass
+    {
+        get
+        {
+            var result = "d-flex justify-content-center";
+
+            return result;
+            //return $"{result} {contentClass}";
+        }
+    }
+
+    string SpinnerClass 
+    {
+         get
+         {
+            var result = $"{SpinnerStyle.GetClass()} {Size.GetClass(SpinnerStyle, TextPosition)}";
+             
+            if (ColorKind != ColorKind.NotSet)
+                result += $" text-{ColorKind.GetLabel()}";    
+            
+
+            return result;
+        }
+    }
+
+    protected override void OnParametersSet()
+    {
+        
+    }
+}

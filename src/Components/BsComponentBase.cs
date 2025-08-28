@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Components;
 
-namespace Opx.Blazor.BsCore
+namespace Opx.Blazor.BsCore.Components
 {
-	public class BsComponentBase : ComponentBase
+	public partial class BsComponentBase : ComponentBase
 	{
 		[Parameter]
 		public string? Id { get; set; }

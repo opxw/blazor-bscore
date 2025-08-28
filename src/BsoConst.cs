@@ -15,7 +15,9 @@ namespace Opx.Blazor.BsCore
 		{
 			Element,
 			Attribute,
-			Content
+			Content,
+			Event,
+			Binder
 		}
 
 		public enum ThemeColor
@@ -89,6 +91,97 @@ namespace Opx.Blazor.BsCore
 		{
 			Text,
 			Dot
+		}
+
+		public enum DivLayoutKind
+		{
+			Container,
+			Wrapper,
+			NotSet
+		}
+
+		public enum ControlState
+		{
+			NotSet,
+			Progress,
+		}
+
+		public enum UIVisibility
+		{
+			Visible,
+			Hidden,
+			NotSet
+		}
+
+		public enum SpinnerSize
+		{
+			[Label("-sm")]
+			Small,
+			[Label("")]
+			Medium,
+			[Label("avatar-sm")]
+			Large,
+			[Label("avatar-lg")]
+			XtraLarge,
+		}
+
+		public enum SpinnerTextPosition
+		{
+			Right,
+			Bottom
+		}
+
+		public enum SpinnerStyle
+		{
+			[Label("border")]
+			Border,
+			[Label("grow")]
+			Grow
+		}
+
+		public enum GridSizeKind
+		{
+			[Label("sm")]
+			Small,
+			[Label("md")]
+			Medium,
+			[Label("lg")]
+			Large,
+			[Label("xl")]
+			XtraLarge,
+			[Label("")]
+			Auto,
+		}
+
+		public enum RowVertALign
+		{
+			[Label("align-items-start")]
+			Start,
+			[Label("align-items-center")]
+			Center,
+			[Label("align-items-end")]
+			End
+		}
+
+		public enum RowHorzAlign
+		{
+			[Label("justify-content-start")]
+			Start,
+			[Label("justify-content-center")]
+			Center,
+			[Label("justify-content-end")]
+			End,
+			[Label("justify-content-between")]
+			Between,
+			[Label("justify-content-around")]
+			Around
+		}
+
+		public enum ValueGrowthKind
+		{
+			Stagnant,
+			Increase,
+			Decrease
 		}
 	}
 }

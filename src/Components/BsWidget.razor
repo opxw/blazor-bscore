@@ -1,0 +1,74 @@
+﻿<BsCard>
+	<BsCardBody>
+		@if (ShowMenu)
+		{
+			<div class="dropdown float-end position-relative">
+				<a href="#" class="dropdown-toggle h4 text-muted" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="mdi mdi-dots-vertical"></i>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end">
+                <li><a href="#" class="dropdown-item">Refresh</a></li>
+            </ul>
+        </div>
+		}
+
+		@if (!string.IsNullOrWhiteSpace(Title))
+		{
+			<h6 class="card-title d-inline-block">@Title</h6>
+		}
+
+		@GenerateContent()
+
+	</BsCardBody>
+</BsCard>
+
+@if (Height > 0)
+{
+	<style>
+		.widget-custom-height {
+			height: @_height;
+			overflow-y: auto;
+		}
+	</style>
+}
+
+@code
+{
+	private string _height => $"{Height}px";
+
+	[Parameter]
+	public bool ShowMenu { get; set; } = true;
+
+	[Parameter]
+	public string Title { get; set; } = string.Empty;
+
+	[Parameter]
+	public EventCallback OnRefresh { get; set; }
+
+	[Parameter]
+	public bool ShowSpinner { get; set; } = false;
+
+	[Parameter]
+	public RenderFragment? ChildContent { get; set; }
+
+	[Parameter]
+	public int Height { get; set; }
+
+	RenderFragment? GenerateContent()
+	{
+		var b = Builder.Build("div");
+
+		if (Height > 0)
+			b.Attribute("class", "widget-custom-height");
+
+		if (ShowSpinner)
+		{
+			RenderFragment spinner = @<BsSpinner ColorKind="ColorKind.Primary" Text="Loading.." Size="SpinnerSize.Small" />;
+			b.Content(spinner);
+		}
+
+		b.Content(ChildContent);
+
+		return b.Render();
+	}
+}

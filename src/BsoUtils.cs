@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using FastEnumUtility;
+using Microsoft.AspNetCore.Components;
+using static Opx.Blazor.BsCore.BsoConst;
 
 public static class Utils
 {
@@ -55,5 +57,70 @@ public static class Utils
 			return s.ToUpper();
 		}
 		return char.ToUpper(s[0]) + s.Substring(1);
+	}
+
+	public static string FirstLetter(this string s)
+	{
+		if (string.IsNullOrWhiteSpace(s))
+			return "";
+
+		return s.Substring(0, 1).ToUpper();
+	}
+
+	// Margin Bottom
+	public static string mb(int value)
+	{
+		if (value <= -1)
+			return "";
+
+		return $"mb-{value}";
+	}
+
+	// Medium Breakpoint
+	public static string md(int value)
+	{
+		if (value <= -1)
+			return "";
+
+		return $"md-{value}";
+	}
+
+	// Large Breakpoint
+	public static string lg(int value)
+	{
+		if (value <= -1)
+			return "";
+
+		return $"lg-{value}";
+	}
+
+	public static string GetClass(this SpinnerStyle style)
+	{
+		return $"spinner-{style.GetLabel()}";
+	}
+
+	public static string GetClass(this SpinnerSize size, SpinnerStyle style, SpinnerTextPosition textPos = SpinnerTextPosition.Right)
+	{
+		var value = size.GetLabel(); 
+		var result = string.Empty;
+
+		switch (size)
+		{
+			case SpinnerSize.Small:
+				result = $"{style.GetClass()}{value}";
+				break;
+			case SpinnerSize.Large:
+			case SpinnerSize.XtraLarge:
+				result = value;
+				break;
+			default:
+				result = "";
+				break;
+		}
+
+		if (textPos == SpinnerTextPosition.Right)
+			result += " me-2";
+
+		return result;
 	}
 }

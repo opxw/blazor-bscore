@@ -1,0 +1,21 @@
+﻿@inherits BsComponentBase
+
+@Draw()
+
+@code
+{
+	[Parameter]
+	public RenderFragment? ChildContent { get; set; }
+
+	[Parameter]
+	public string? For { get; set; }
+
+	RenderFragment? Draw()
+	{
+		return Builder.Build("label", Id, Name)
+			.Attribute("class", Class)
+			.Attribute("for", For)
+			.Content(ChildContent)
+			.Render();
+	}
+}

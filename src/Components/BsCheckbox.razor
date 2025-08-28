@@ -1,0 +1,21 @@
+﻿@inherits BsComponentBase
+
+@Draw()
+
+@code
+{
+	[Parameter]
+	public bool Checked { get; set; }
+
+	RenderFragment? Draw()
+	{
+		var b = Builder.Build("input", Id, Name)
+			.Attribute("class", Class)
+			.Attribute("type", "checkbox");
+
+		if (Checked)
+			b.Content("checked");
+
+		return b.Render();
+	}
+}

@@ -1,0 +1,30 @@
+﻿@inherits BsComponentBase
+
+@Draw()
+
+@code
+{
+	[Parameter]
+	public RenderFragment? ChildContent { get; set; }
+
+	[Parameter]
+	public RowHorzAlign align { get; set; }
+
+	string GetClass()
+	{
+		var result = "row";
+		result += $" {align.GetLabel()}";
+
+		if (IsClassDefined)
+			result += $" {Class}";
+
+		return result;
+	}
+
+	RenderFragment? Draw()
+	{
+		return Builder.Build("div", Id, Name)
+			.Attribute("class", GetClass())
+			.Render();
+	}
+}

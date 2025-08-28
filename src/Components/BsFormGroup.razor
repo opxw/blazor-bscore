@@ -1,0 +1,25 @@
+﻿@inherits BsComponentBase
+
+@Draw()
+
+@code 
+{
+	[Parameter]
+	public RenderFragment? ChildContent { get; set; }
+
+	[Parameter]
+	public int MarginBottom { get; set; } = -1;
+
+	RenderFragment? Draw()
+	{
+		var b = Builder.Build("div", Id, Name)
+			.Attribute("class", "form-group")
+			.Attribute("class", Class)
+			.Content(ChildContent);
+
+		if (MarginBottom > -1)
+			b.Attribute("class", Utils.mb(MarginBottom));
+
+		return b.Render();
+	}
+}

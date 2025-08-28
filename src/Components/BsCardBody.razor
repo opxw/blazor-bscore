@@ -1,0 +1,31 @@
+﻿@inherits BsComponentBase
+
+@DrawBody()
+
+@code 
+{
+	[Parameter]
+	public RenderFragment? ChildContent { get; set; }
+
+	[Parameter]
+	public string? Title { get; set; }
+
+	RenderFragment? DrawBody()
+	{
+		var title = Builder.Build("h5")
+			.Attribute("class", "card-title")
+			.Content(Title)
+		.Render();
+
+		var b = Builder.Build("div", Id, Name)
+			.Attribute("class", "card-body")
+			.Attribute("class", Class);
+
+		if (!string.IsNullOrWhiteSpace(Title))
+			b.Content(title);
+
+		b.Content(ChildContent);
+
+		return b.Render();
+	}
+}

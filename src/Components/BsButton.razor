@@ -10,18 +10,45 @@
 	[Parameter]
 	public ColorKind Kind { get; set; } = ColorKind.NotSet;
 
+	[Parameter]
+	public string Type { get; set; } = "button";
+
+	[Parameter]
+	public bool Disabled { get; set; }
+
+	[Parameter]
+	public ControlState State { get; set; } = ControlState.NotSet;
+
+	[Parameter]
+	public EventCallback OnClick { get; set; }
+
+	private async Task OnClicked()
+		=> await OnClick.InvokeAsync();
+
 	private RenderFragment? Draw()
 	{
 		var b = Builder.Build("button", Id, Name)
-			.Attribute("type", "button")
-			.Attribute("class", "btn")
-			.Content(ChildContent);
+			.Attribute("type", Type)
+			.Attribute("class", "btn");
+
+		if (State == ControlState.Progress)
+		{
+			RenderFragment spinner =@<span class="spinner-border spinner-border-sm me-1" aria-hidden="true"></span>;
+			b.Content(spinner);	
+		}
+
+		b.Content(ChildContent);
 
 		if (Kind != ColorKind.NotSet)
 			b.Attribute("class", $"btn-{Kind.GetLabel()}");
 
 		if (IsClassDefined)
 			b.Attribute("class", Class);
+
+		if (Disabled)
+			b.Attribute("disabled", "");
+
+		b.Event("onclick", () => { OnClicked(); });
 
 		return b.Render();
 	}

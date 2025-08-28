@@ -1,0 +1,27 @@
+﻿@inherits BsComponentBase
+
+@Draw()
+
+@code 
+{
+	[Parameter]
+	public RenderFragment? ChildContent { get; set; }
+
+	string GetClass()
+	{
+		var result = "row";
+
+		if (IsClassDefined)
+			result += $" {Class}";
+
+		return result;
+	}
+
+	RenderFragment? Draw()
+	{
+		return Builder.Build("div", Id, Name)
+			.Attribute("class", GetClass())
+			.Content(ChildContent)
+			.Render();
+	}
+}

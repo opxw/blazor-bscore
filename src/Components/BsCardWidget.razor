@@ -1,0 +1,48 @@
+﻿<BsCard>
+	<i class="@GenerateClass()"></i>
+	<h6 class="text-muted text-uppercase mt-0">@Title</h6>
+	<h3 class="mb-3">$<span data-plugin="counterup">@Value</span></h3>
+	<span class="@BadgeClass()"> @Percentage </span>
+	<span class="text-muted">@Remark</span>
+</BsCard>
+
+@code
+{
+	[Parameter]
+	public string IconName { get; set; } = string.Empty;
+
+	[Parameter]
+	public string Title { get; set; } = string.Empty;
+
+	[Parameter]
+	public double Value { get; set; } = 0;
+
+	[Parameter]
+	public double Percentage { get; set; } = 0;
+
+	[Parameter]
+	public ValueGrowthKind GrowthKind { get; set; } = ValueGrowthKind.Stagnant;
+
+	[Parameter]
+	public string Remark { get; set; } = "";
+
+	string GenerateClass()
+	{
+		var baseClass = "float-end m-0 h2 text-muted";
+
+		if (!string.IsNullOrWhiteSpace(IconName))
+			baseClass += $" {IconName}";
+
+		return baseClass;
+	}
+
+	string BadgeClass()
+	{
+		return GrowthKind switch
+		{
+			ValueGrowthKind.Increase => "badge bg-success me-1",
+			ValueGrowthKind.Decrease => "badge bg-danger me-1",
+			_ => "badge bg-warning me-1",
+		};
+	}
+}

@@ -12,13 +12,15 @@ namespace Opx.Blazor.BsCore
 		public HtmlTagKind Kind { get; set; }
 		public RenderFragment? Content { get; set; }
 		public string? MarkupString { get; set; }
+		public Dictionary<string, Action> Bindings { get; set; } = new();
 	}
 
 	public class HtmlAttributeBase
 	{
 		private string _tag = string.Empty;
 		private List<BsoHtmlBuilderItem> _tags = new List<BsoHtmlBuilderItem>();
-		List<RenderFragment> _contents = new();
+		private Dictionary<string, Action> _events = new();
+		private Dictionary<string, Action> _binds = new();
 
 		public HtmlAttributeBase(string tag)
 		{
@@ -44,6 +46,26 @@ namespace Opx.Blazor.BsCore
 				Kind = HtmlTagKind.Attribute,
 				Group = groupId
 			});
+
+			return this;
+		}
+
+		public HtmlAttributeBase Event(string name, Action a)
+		{
+			_events.Add(name, a);
+			return this;
+		}
+
+		public HtmlAttributeBase Bind(string name, string value, Action a)
+		{
+			var item = new BsoHtmlBuilderItem()
+			{
+				Name = name,
+				Value = value,
+				Kind = HtmlTagKind.Binder
+			};
+
+			item.Bindings.Add(name, a);
 
 			return this;
 		}
@@ -104,14 +126,34 @@ namespace Opx.Blazor.BsCore
 					b.AddAttribute(1, group.Key, valueOfName);
 				}
 
+				/// events
+				foreach (var ev in _events)
+				{
+					b.AddAttribute(2, ev.Key, EventCallback.Factory.Create(this, ev.Value));
+				}
+
+
+				//binding
+				//foreach (var bd in _binds)
+				//{
+				//	b.AddAttribute(3, bd.Key, EventCallback.Factory.CreateBinder(this, value => bd.Value = value, bd.Value));
+				//}
+
+				/// BINDINGS
+				var bindGroups = _tags.Where(x => x.Kind == HtmlTagKind.Binder).OrderBy(x => x.Name).ToList();
+				foreach (var bind in bindGroups)
+				{
+					b.AddAttribute(3, bind.Name, EventCallback.Factory.Create(this, bind.Bindings.FirstOrDefault().Value));
+				}
+
 				/// CONTENT
 				var contents = _tags.Where(x => x.Kind == HtmlTagKind.Content).OrderBy(x => x.SortOrder).ToList();
 				foreach (var c in contents)
 				{
 					if (!string.IsNullOrWhiteSpace(c.MarkupString))
-						b.AddContent(2, new MarkupString(c.MarkupString));
+						b.AddContent(4, new MarkupString(c.MarkupString));
 					else
-						b.AddContent(2, c.Content);
+						b.AddContent(4, c.Content);
 				}
 
 				b.CloseElement();

@@ -1,0 +1,28 @@
+﻿@if (Visible)
+{
+	<div class="preloader">
+		@* <BsSpinner ColorKind="ColorKind.Primary" Size="SpinnerSize.Small" /> *@
+		<span class="spinner-border spinner-border-sm loader"></span>
+	</div>
+}
+
+<style>
+	.loader
+	{
+		display: inline-block;
+		box-sizing: border-box;
+		padding: 50%;
+	}
+</style>
+
+@code
+{
+	[Parameter]
+	public bool Visible { get; set; } = true;
+
+	protected override void OnParametersSet()
+	{
+		base.OnParametersSet();
+		StateHasChanged();
+	}
+}

@@ -1,0 +1,19 @@
+﻿@inherits BsComponentBase
+
+@DrawCardHeader()
+
+@code
+{
+	[Parameter]
+	public RenderFragment? ChildContent { get; set; }
+
+	private RenderFragment? DrawCardHeader()
+	{
+		var b = Builder.Build("div", Id, Name)
+			.Attribute("class", "card-header")
+			.Attribute("class", Class)
+			.Content(ChildContent);
+
+		return b.Render();
+	}
+}

@@ -1,39 +1,29 @@
 ﻿@inherits BsComponentBase
 
-<div class="card text-white bg-success">
-    <div class="card-body">
-        <blockquote class="card-bodyquote mb-0">
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
-            <footer class="blockquote-footer text-white">Someone famous in <cite title="Source Title">Source Title</cite></footer>
-        </blockquote>
-    </div>
-</div>
+@DrawCard()
 
 @code
 {
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
-    [Parameter]
-    public bool NoHeader { get; set; }
+    private string GetCardClass()
+    {
+        var result = "card";
 
-    [Parameter]
-    public string Title { get; set; }
+        if (IsClassDefined)
+            result += $" {Class}";
+
+        return result;
+    }
 
     private RenderFragment? DrawCard()
     {
-
-        var body = Builder.Build("div")
-            .Attribute("class", "card-body")
-            .Content(ChildContent)
-            .Render();
-
-        var container = Builder.Build("div", Id, Name)
+        var b = Builder.Build("div", Id, Name)
             .Attribute("class", "card")
-            .Attribute("class", Class);
+            .Attribute("class", Class)
+            .Content(ChildContent);
 
-        container.Content(body);
-
-        return container.Render();
+        return b.Render();
     }
 }

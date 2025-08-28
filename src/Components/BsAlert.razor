@@ -1,0 +1,64 @@
+﻿@inherits BsComponentBase
+
+@if (_visible) @Draw()
+
+@code
+{
+	[Parameter]
+	public RenderFragment? ChildContent { get; set;}
+
+	[Parameter]
+	public bool Dismissible { get; set; } = true;
+
+	[Parameter]
+	public ColorKind Kind { get; set; }
+
+	[Parameter]
+	public string? IconName { get; set; }
+
+	private bool _visible = true;
+
+	[Parameter]
+	public bool Visible
+	{
+		get => _visible;
+		set => _visible = value;
+	}
+
+	private RenderFragment? Draw()
+	{
+		var b = Builder.Build("div", Id, Name)
+			.Attribute("class", "alert")
+			.Attribute("class", $"alert-{Kind.GetLabel()}")
+			.Attribute("role", "alert");
+
+		if (Dismissible)
+			b.Attribute("class", "alert-dismissible");
+		b.Attribute("class", "fade show");
+
+		if (!string.IsNullOrWhiteSpace(IconName))
+		{
+			var iconContent = Builder.Build("i")
+				.Attribute("class", IconName).Render();
+			b.Content(iconContent);
+		}
+
+		b.Content(ChildContent);
+
+		if (Dismissible)
+		{
+			RenderFragment btnContent =@<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="close" @onclick=ButtonCloseClicked></button>;
+
+			b.Content(btnContent);
+		}
+
+		b.Attribute("class", Class);
+
+		return b.Render();
+	}
+
+	private void ButtonCloseClicked()
+	{
+		_visible = false;
+	}
+}
