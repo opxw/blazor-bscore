@@ -93,13 +93,6 @@ namespace Opx.Blazor.BsCore
 			Dot
 		}
 
-		public enum DivLayoutKind
-		{
-			Container,
-			Wrapper,
-			NotSet
-		}
-
 		public enum ControlState
 		{
 			NotSet,
@@ -182,6 +175,12 @@ namespace Opx.Blazor.BsCore
 			Stagnant,
 			Increase,
 			Decrease
+		}
+
+		public enum ContentLayout
+		{
+			Wrapper,
+			Centered,
 		}
 	}
 }

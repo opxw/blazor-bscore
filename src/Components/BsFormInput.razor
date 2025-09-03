@@ -1,0 +1,69 @@
+﻿@inherits BsComponentBase
+
+<div class="@_divClass">
+	@(!IsFloating)
+	{
+		@GetLabel()
+	}
+	<input type="text" id="@Id" name="@Name" placeholder="@Placeholder"/>
+	@if(IsFloating)
+	{
+		@GetLabel()
+	}
+</div>
+
+@code
+	{
+		[Parameter]
+		public string? Label { get; set; }
+
+		[Parameter]
+		public int LabelMarginBottom { get; set; } = 2;
+
+		[Parameter]
+		public bool IsFloating { get; set; } = false;
+
+		[Parameter]
+		public bool IsColRow { get; set; } = false;
+
+		[Parameter]
+		public int MarginBottom { get; set; } = 2;
+
+		[Parameter]
+		public string? Placeholder { get; set; }
+
+		string _divClass
+		{
+			get
+			{
+				string cls = string.Empty;
+				if (IsClassDefined)
+					cls = Class;
+
+				if (MarginBottom > 0)
+					cls += $" mb-{MarginBottom}";
+
+				if (IsFloating)
+					cls += " form-floating";
+
+				if (IsColRow)
+					cls += " col";
+
+				return cls;
+			}
+	}
+
+	RenderFragment? GetLabel()
+	{
+		if (string.IsNullOrWhiteSpace(Label))
+			return null;
+
+		var cls = "form-label";
+		if (LabelMarginBottom > 0)
+		{
+			cls += $" mb-{LabelMarginBottom}";
+		}
+
+		return@<label for="@Id" class="form-label"></label>;
+	}
+}
