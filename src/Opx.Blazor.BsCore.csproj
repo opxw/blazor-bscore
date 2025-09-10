@@ -5,7 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <Authors>Noviyanto Wibowo</Authors>
-    <Version>1.0.3</Version>
+    <Version>1.0.6</Version>
     <Company>$(Authors)</Company>
   </PropertyGroup>
 
@@ -24,7 +24,7 @@
 
   <ItemGroup>
     <PackageReference Include="FastEnum" Version="2.0.5" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="9.0.8" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="9.0.9" />
   </ItemGroup>
 
 </Project>

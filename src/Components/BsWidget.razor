@@ -4,12 +4,12 @@
 		{
 			<div class="dropdown float-end position-relative">
 				<a href="#" class="dropdown-toggle h4 text-muted" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="mdi mdi-dots-vertical"></i>
-            </a>
-            <ul class="dropdown-menu dropdown-menu-end">
-                <li><a href="#" class="dropdown-item">Refresh</a></li>
-            </ul>
-        </div>
+					<i class="mdi mdi-dots-vertical"></i>
+				</a>
+				<ul class="dropdown-menu dropdown-menu-end">
+					<li><a href="#" class="dropdown-item">Refresh</a></li>
+				</ul>
+			</div>
 		}
 
 		@if (!string.IsNullOrWhiteSpace(Title))
@@ -49,6 +49,9 @@
 	public bool ShowSpinner { get; set; } = false;
 
 	[Parameter]
+	public string LoadingText { get; set; } = string.Empty;
+
+	[Parameter]
 	public RenderFragment? ChildContent { get; set; }
 
 	[Parameter]
@@ -63,7 +66,7 @@
 
 		if (ShowSpinner)
 		{
-			RenderFragment spinner = @<BsSpinner ColorKind="ColorKind.Primary" Text="Loading.." Size="SpinnerSize.Small" />;
+			RenderFragment spinner = @<BsSpinner ColorKind="ColorKind.Primary" Text="@LoadingText" Size="SpinnerSize.Small" />;
 			b.Content(spinner);
 		}
 
